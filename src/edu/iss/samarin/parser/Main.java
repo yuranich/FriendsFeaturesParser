@@ -3,9 +3,7 @@ package edu.iss.samarin.parser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -13,16 +11,16 @@ import java.util.List;
  */
 public class Main {
     private static final String FILE_NAME = "friends.json";
-    private static final String RESULT_FILE = "result.json";
-    private static List<UserInfo> users;
+    private static final String OUTPUT_FILE = "user.featnames";
 
     public static void main(String[] args) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        try (FileInputStream fin = new FileInputStream(FILE_NAME)) {
-            users = mapper.readValue(fin,
-                    mapper.getTypeFactory().constructCollectionType(List.class, UserInfo.class));
-            mapper.writeValue(new File(RESULT_FILE), users);
+        ToFeaturesParser parser = new ToFeaturesParser(FILE_NAME);
+        try (FileOutputStream fon = new FileOutputStream(OUTPUT_FILE)) {
+            PrintStream out = new PrintStream(fon);
+            out.println("Features size: " + parser.getFeatures().size());
+            for (Object o : parser.getFeatures()) {
+                out.println(o);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

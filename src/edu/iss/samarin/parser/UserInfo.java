@@ -1,7 +1,5 @@
 package edu.iss.samarin.parser;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.List;
 
 /**
@@ -38,6 +36,26 @@ public class UserInfo {
         public void setTitle(String title) {
             this.title = title;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+
+            if (obj instanceof Country) {
+                return id == ((Country) obj).getId();
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return id;
+        }
+
+        @Override
+        public String toString() {
+            return "country: " + title;
+        }
     }
 
     public static class City {
@@ -58,6 +76,26 @@ public class UserInfo {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+
+            if (obj instanceof City) {
+                return id == ((City) obj).getId();
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return id;
+        }
+
+        @Override
+        public String toString() {
+            return "city: " + title;
         }
     }
 
@@ -152,6 +190,26 @@ public class UserInfo {
         public void setChair_name(String chair_name) {
             this.chair_name = chair_name;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+
+            if (obj instanceof University) {
+                return id == ((University)obj).getId();
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return id;
+        }
+
+        @Override
+        public String toString() {
+            return "education.university: " + name;
+        }
     }
 
     public static class Occupation {
@@ -181,6 +239,32 @@ public class UserInfo {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+
+            if (obj instanceof Occupation) {
+                if (type.equals(((Occupation) obj).getType())) {
+                    if (id == 0) {
+                        return name.equals(((Occupation) obj).getName());
+                    } else {
+                        return id == ((Occupation) obj).getId();
+                    }
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return ("work".equals(type))? name.hashCode(): id;
+        }
+
+        @Override
+        public String toString() {
+            return "occupation." + type + ": " + name;
         }
     }
 
@@ -283,6 +367,29 @@ public class UserInfo {
 
         public void setSpeciality(String speciality) {
             this.speciality = speciality;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+
+            if (obj instanceof School) {
+                return id.equals(((School) obj).getId());
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return Integer.parseInt(id);
+        }
+
+        @Override
+        public String toString() {
+            if (name != null && !name.isEmpty()) {
+                return "education.school: " + name;
+            }
+            return "education.school.id: " + id;
         }
     }
 

@@ -36,14 +36,8 @@ public class ToFeaturesParser {
 
     private void extractFeaturesFromUsers() {
         for (UserInfo user : users) {
-            if (user.getFirst_name() != null && !user.getFirst_name().isEmpty()) {
-                features.add(new SimpleFeature("first_name", user.getFirst_name()));
-            }
             if (user.getLast_name() != null && !user.getLast_name().isEmpty()) {
                 features.add(new SimpleFeature("last_name", user.getLast_name()));
-            }
-            if (user.getHome_town() != null && !user.getHome_town().isEmpty()) {
-                features.add(new SimpleFeature("home_town", user.getHome_town()));
             }
             if (user.getCity() != null && user.getCity().getId() != 0) {
                 features.add(user.getCity());
@@ -59,7 +53,7 @@ public class ToFeaturesParser {
                 if (person.getPolitical() != 0) {
                     features.add(new SimpleFeature("personal.political.id", person.getPolitical()));
                 }
-                if (person.getReligion() != null && person.getReligion().isEmpty()) {
+                if (person.getReligion() != null && !person.getReligion().isEmpty()) {
                     features.add(new SimpleFeature("personal.religion", person.getReligion()));
                 }
             }
@@ -74,6 +68,51 @@ public class ToFeaturesParser {
                 }
             }
         }
+    }
+
+    public boolean isUserContainsFeature(UserInfo user, Object feature) {
+        if (user.getCity() != null && user.getCity().equals(feature)) {
+            return true;
+        }
+        if (user.getCountry() != null && user.getCountry().equals(feature)) {
+            return true;
+        }
+        if (user.getOccupation() != null && user.getOccupation().equals(feature)) {
+            return true;
+        }
+        if (user.getUniversities() != null && !user.getUniversities().isEmpty()) {
+            for (UserInfo.University univer : user.getUniversities()) {
+                if (univer.equals(feature)) {
+                    return true;
+                }
+            }
+        }
+        if (user.getSchools() != null && !user.getSchools().isEmpty()) {
+            for (UserInfo.School school : user.getSchools()) {
+                if (school.equals(feature)) {
+                    return true;
+                }
+            }
+        }
+        if (user.getPersonal() != null) {
+            UserInfo.Personal person = user.getPersonal();
+            if (person.getPolitical() != 0) {
+                if (feature.equals(new SimpleFeature("personal.political.id", person.getPolitical()))) {
+                    return true;
+                }
+            }
+            if (person.getReligion() != null && !person.getReligion().isEmpty()) {
+                if (feature.equals(new SimpleFeature("personal.religion", person.getReligion()))) {
+                    return true;
+                }
+            }
+        }
+        if (user.getLast_name() != null && !user.getLast_name().isEmpty()) {
+            if (feature.equals(new SimpleFeature("last_name", user.getLast_name()))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public class SimpleFeature {

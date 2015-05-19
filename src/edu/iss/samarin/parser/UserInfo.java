@@ -7,9 +7,7 @@ import java.util.List;
  */
 public class UserInfo {
     private long id;
-    private String first_name;
     private String last_name;
-    private String home_town;
     private Country country;
     private List<University> universities;
     private Occupation occupation;
@@ -422,28 +420,12 @@ public class UserInfo {
         this.id = id;
     }
 
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
     public String getLast_name() {
         return last_name;
     }
 
     public void setLast_name(String last_name) {
         this.last_name = last_name;
-    }
-
-    public String getHome_town() {
-        return home_town;
-    }
-
-    public void setHome_town(String home_town) {
-        this.home_town = home_town;
     }
 
     public Country getCountry() {
